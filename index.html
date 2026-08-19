@@ -53,22 +53,25 @@
         text-transform: uppercase;
         letter-spacing: 0.18em;
         color: rgba(255, 255, 255, 0.75);
-        margin: 0 0 12px 0;
+        margin: 0;
         font-weight: 600;
+        line-height: 1;
     }
 
-    /* Animated Under Construction Badge (Positioned High to Shield the Stadium Banner) */
+    /* Perfect Centering & Balanced Margins for Badge */
     .construction-status {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
         gap: 10px;
         background-color: rgba(0, 0, 0, 0.55);
         padding: 8px 18px;
         border-radius: 100px;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        margin-bottom: 28px;
+        margin: 18px auto 28px auto; /* Explicit top & bottom spacing to balance name & title */
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+        box-sizing: border-box;
     }
 
     .construction-status span {
@@ -76,6 +79,7 @@
         font-size: 0.9rem;
         font-weight: 500;
         letter-spacing: -0.01em;
+        line-height: 1;
     }
 
     /* Mini Moving Loader Icon */
@@ -86,6 +90,7 @@
         border-top-color: #00b4d8;
         border-radius: 50%;
         animation: spin-loader 0.8s linear infinite;
+        flex-shrink: 0;
     }
 
     @keyframes spin-loader {
@@ -100,6 +105,7 @@
         color: #ffffff;
         margin: 0 0 20px 0;
         line-height: 1.15;
+        width: 100%;
     }
 
     /* Premium Metallic Text Gradient */
@@ -182,10 +188,9 @@
         }
         .hero-name {
             font-size: 0.85rem;
-            margin-bottom: 10px;
         }
         .construction-status {
-            margin-bottom: 24px;
+            margin: 14px auto 22px auto;
             padding: 6px 14px;
         }
         .construction-status span {
@@ -216,13 +221,13 @@
         <!-- Name Eyebrow -->
         <p class="hero-name">Gabriel Vasquez</p>
         
-        <!-- Repositioned Badge Covers the Stadium Line -->
+        <!-- Centered Badge with Balanced Spacing -->
         <div class="construction-status">
             <div class="loader-dot"></div>
             <span>Website is still under construction</span>
         </div>
 
-        <!-- Clean Title (No Shadows or Letter Effects) -->
+        <!-- Main Title -->
         <h1 class="hero-title">Welcome to my <span class="accent-text">Tennis Portfolio</span></h1>
         <p class="hero-subtitle">Serving up articles, video breakdowns analysis, and fresh perspectives from across the court.</p>
         
