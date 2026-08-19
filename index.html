@@ -25,7 +25,7 @@
         text-align: center;
         
         /* Layout spacing for a grand desktop presentation */
-        padding: 140px 40px;
+        padding: 120px 40px;
         min-height: 65vh; 
         width: 100%;
         
@@ -36,7 +36,7 @@
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
         position: relative;
         
-        /* Background configuration using your uploaded file */
+        /* Original clean background configuration */
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('IMG_5243.jpeg');
         background-size: cover;
         background-position: center;
@@ -53,49 +53,22 @@
         text-transform: uppercase;
         letter-spacing: 0.18em;
         color: rgba(255, 255, 255, 0.75);
-        margin: 0 0 16px 0;
+        margin: 0 0 12px 0;
         font-weight: 600;
     }
 
-    /* Typography with Deep Contrast */
-    .hero-title {
-        font-size: 3.8rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: #ffffff;
-        margin: 0 0 20px 0;
-        line-height: 1.15;
-    }
-
-    /* Premium Metallic Text Gradient */
-    .hero-title .accent-text {
-        background: linear-gradient(135deg, #0071e3 0%, #00b4d8 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .hero-subtitle {
-        font-size: 1.35rem;
-        color: #e8e8ed;
-        max-width: 600px;
-        margin: 0 0 24px 0;
-        font-weight: 400;
-        line-height: 1.5;
-        letter-spacing: -0.01em;
-    }
-
-    /* Animated Under Construction Layout */
+    /* Animated Under Construction Badge (Positioned High to Shield the Stadium Banner) */
     .construction-status {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.55);
         padding: 8px 18px;
         border-radius: 100px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        margin-bottom: 44px;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        margin-bottom: 28px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
     }
 
     .construction-status span {
@@ -117,6 +90,33 @@
 
     @keyframes spin-loader {
         to { transform: rotate(360deg); }
+    }
+
+    /* Typography - Clean with Zero Text Effects */
+    .hero-title {
+        font-size: 3.8rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #ffffff;
+        margin: 0 0 20px 0;
+        line-height: 1.15;
+    }
+
+    /* Premium Metallic Text Gradient */
+    .hero-title .accent-text {
+        background: linear-gradient(135deg, #0071e3 0%, #00b4d8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+        font-size: 1.35rem;
+        color: #e8e8ed;
+        max-width: 600px;
+        margin: 0 0 36px 0;
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: -0.01em;
     }
 
     /* Flexbox Button Layout */
@@ -170,29 +170,33 @@
         transform: translateY(-2px);
     }
 
-    /* Flawless Mobile Optimization */
+    /* Mobile Responsive Optimization */
     @media (max-width: 768px) {
         body {
             padding: 0 12px;
         }
         .premium-hero-container {
-            padding: 80px 20px;
+            padding: 70px 20px 60px 20px;
             min-height: auto;
             margin: 20px 0;
         }
         .hero-name {
             font-size: 0.85rem;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+        }
+        .construction-status {
+            margin-bottom: 24px;
+            padding: 6px 14px;
+        }
+        .construction-status span {
+            font-size: 0.8rem;
         }
         .hero-title {
             font-size: 2.6rem;
         }
         .hero-subtitle {
             font-size: 1.15rem;
-            margin-bottom: 20px;
-        }
-        .construction-status {
-            margin-bottom: 36px;
+            margin-bottom: 28px;
         }
         .hero-buttons {
             flex-direction: column;
@@ -209,16 +213,20 @@
 <body>
 
     <div class="premium-hero-container">
+        <!-- Name Eyebrow -->
         <p class="hero-name">Gabriel Vasquez</p>
         
-        <h1 class="hero-title">Welcome to my <span class="accent-text">Tennis Portfolio</span></h1>
-        <p class="hero-subtitle">Serving up articles, video breakdowns analysis, and fresh perspectives from across the court.</p>
-        
+        <!-- Repositioned Badge Covers the Stadium Line -->
         <div class="construction-status">
             <div class="loader-dot"></div>
             <span>Website is still under construction</span>
         </div>
+
+        <!-- Clean Title (No Shadows or Letter Effects) -->
+        <h1 class="hero-title">Welcome to my <span class="accent-text">Tennis Portfolio</span></h1>
+        <p class="hero-subtitle">Serving up articles, video breakdowns analysis, and fresh perspectives from across the court.</p>
         
+        <!-- Action Buttons -->
         <div class="hero-buttons">
             <a class="hero-btn primary-btn" href="https://www.linkedin.com/in/gabriel-vasquez-herrera-8b7b9614a?utm_source=share_via&amp;utm_content=profile&amp;utm_medium=member_ios" target="_blank" rel="noopener">About Me</a>
             <a class="hero-btn secondary-btn" href="blog.html">Read Blog</a>
