@@ -137,7 +137,7 @@
 
                 <div id="sec-bracket" class="bg-gray-900/60 border border-gray-800 rounded-xl p-6 accent-glow hidden">
                     <h2 class="text-lg font-bold text-white mb-1">Championship Bracket Layout</h2>
-                    <p class="text-xs text-gray-400 mb-6">Seeds have been completely randomized. Click any match box to report scores.</p>
+                    <p class="text-xs text-gray-400 mb-6">Seeds have been completely randomized. Click any active match box to report scores.</p>
                     <div id="bracket-render-area" class="flex items-start gap-8 overflow-x-auto py-4"></div>
                 </div>
 
@@ -215,7 +215,6 @@
         let leagueStandings = {}; 
         let activeFormatMode = "bracket";
 
-        // Global Active Settings Object Hydrated at Gen Time
         let activeRules = {
             gamesToWin: 6,
             thirdSetType: "match-tb",
@@ -282,19 +281,16 @@
 
         function generatePIN() { return Math.random().toString(36).substring(2, 6).toUpperCase(); }
 
-        // 3. LAUNCH TOURNAMENT OPERATIONS
         function generateTournament() {
             if (globalPlayers.length < 2) {
                 alert("You need at least 2 competitors registered to run tournament operations.");
                 return;
             }
 
-            // Sync values from configuration system inputs
             activeRules.gamesToWin = parseInt(document.getElementById('rule-set-type').value);
             activeRules.thirdSetType = document.getElementById('rule-third-set').value;
             activeRules.tbPointsTarget = parseInt(document.getElementById('rule-tb-points').value);
 
-            // Dynamically alter sidebar Set 3 form headers text based on the choice
             document.getElementById('header-set3').innerText = activeRules.thirdSetType === 'match-tb' ? 'Match TB' : 'Set 3';
 
             activeFormatMode = document.querySelector('input[name="tournament-format"]:checked').value;
@@ -305,7 +301,6 @@
             document.getElementById('tournament-workspace').classList.remove('hidden');
             document.getElementById('active-view-indicator').classList.remove('hidden');
 
-            // Reset inputs formatting elements
             document.getElementById('form-match-label').innerText = "No match target selected...";
             document.getElementById('input-match-id').value = "";
             resetScoreInputs();
@@ -331,16 +326,14 @@
             ['p1-s1','p1-s2','p1-s3','p2-s1','p2-s2','p2-s3'].forEach(id => document.getElementById(id).value = 0);
         }
 
-        // 4. GENERATE BRACKET DESIGN
         function buildBracketSystem(players) {
             const area = document.getElementById('bracket-render-area');
-            area.innerHTML = '';
             
             let powerOfTwo = 2;
             while (powerOfTwo < players.length) { powerOfTwo *= 2; }
             while (players.length < powerOfTwo) { players.push("BYE"); }
 
-            let roundHtml = `<div class="flex flex-col gap-6 min-w-[240px]"><div class="text-xs uppercase font-bold text-gray-500 tracking-wider mb-2">Round 1</div>`;
+            let fullBracketHtml = `<div class="flex flex-col gap-6 min-w-[240px]"><div class="text-xs uppercase font-bold text-gray-500 tracking-wider mb-2">Round 1</div>`;
 
             for (let i = 0; i < players.length; i += 2) {
                 const matchId = `B-1-${i/2}`;
@@ -350,44 +343,44 @@
                 const isBye = players[i+1] === "BYE";
                 if(isBye) activeMatches[matchId].winner = players[i];
 
-                roundHtml += `
+                fullBracketHtml += `
                     <div id="card-${matchId}" onclick="${isBye ? '' : `loadMatchToSidebar('${matchId}')`}" class="bg-gray-950 border ${isBye ? 'border-gray-800 opacity-40 cursor-default':'border-gray-800 hover:border-orange-500/50 cursor-pointer'} rounded-lg p-3 space-y-1 transition">
-                        <div class="flex justify-between text-sm"><span class="font-medium" id="${matchId}-p1-name">${players[i]}</span><span id="${matchId}-p1-sc" class="font-mono text-gray-400">${isBye? activeRules.gamesToWin :'-'}</span></div>
-                        <div class="flex justify-between text-sm border-t border-gray-900 pt-1"><span class="font-medium text-gray-400" id="${matchId}-p2-name">${players[i+1]}</span><span id="${matchId}-p2-sc" class="font-mono text-gray-400">${isBye?'0':'-'}</span></div>
-                        <div class="text-[10px] text-gray-500 flex justify-between pt-1"><span>Match #${matchId}</span> <span class="text-orange-400 font-mono font-bold">${isBye?'BYE AUTOMATIC':`PIN: ${mPin}`}</span></div>
+                        <div class="flex justify-between text-sm"><span class="font-medium" id="${matchId}-p1-name">${players[i]}</span><span id="${matchId}-p1-sc" class="font-mono text-gray-400">${isBye ? activeRules.gamesToWin : '-'}</span></div>
+                        <div class="flex justify-between text-sm border-t border-gray-900 pt-1"><span class="font-medium text-gray-400" id="${matchId}-p2-name">${players[i+1]}</span><span id="${matchId}-p2-sc" class="font-mono text-gray-400">${isBye ? '0' : '-'}</span></div>
+                        <div class="text-[10px] text-gray-500 flex justify-between pt-1"><span>Match #${matchId}</span> <span id="${matchId}-pin" class="text-orange-400 font-mono font-bold">${isBye ? 'BYE AUTOMATIC' : `PIN: ${mPin}`}</span></div>
                     </div>`;
             }
-            roundHtml += `</div>`;
-            area.innerHTML = roundHtml;
+            fullBracketHtml += `</div>`;
 
             let currentRoundSize = powerOfTwo / 4;
             let roundNum = 2;
             while(currentRoundSize >= 1) {
-                let blankRoundHtml = `<div class="flex flex-col gap-12 min-w-[240px] justify-around h-full"><div class="text-xs uppercase font-bold text-gray-500 tracking-wider mb-2">Round ${roundNum}</div>`;
+                fullBracketHtml += `<div class="flex flex-col gap-12 min-w-[240px] justify-around h-full"><div class="text-xs uppercase font-bold text-gray-500 tracking-wider mb-2">Round ${roundNum}</div>`;
                 for(let i=0; i < currentRoundSize; i++) {
                     const matchId = `B-${roundNum}-${i}`;
-                    activeMatches[matchId] = { p1: "TBD", p2: "TBD", pin: generatePIN(), winner: null, type: 'bracket' };
-                    blankRoundHtml += `
-                        <div id="card-${matchId}" class="bg-gray-950 border border-gray-900 rounded-lg p-3 space-y-1 opacity-50">
+                    const mPin = generatePIN();
+                    activeMatches[matchId] = { p1: "TBD", p2: "TBD", pin: mPin, winner: null, type: 'bracket' };
+                    fullBracketHtml += `
+                        <div id="card-${matchId}" class="bg-gray-950 border border-gray-900 rounded-lg p-3 space-y-1 opacity-50 transition">
                             <div class="flex justify-between text-sm"><span class="text-gray-500" id="${matchId}-p1-name">TBD</span><span id="${matchId}-p1-sc" class="font-mono text-gray-500">-</span></div>
                             <div class="flex justify-between text-sm border-t border-gray-900 pt-1"><span class="text-gray-500" id="${matchId}-p2-name">TBD</span><span id="${matchId}-p2-sc" class="font-mono text-gray-500">-</span></div>
-                            <div class="text-[10px] text-gray-500">Match #${matchId}</div>
+                            <div class="text-[10px] text-gray-500 flex justify-between pt-1"><span>Match #${matchId}</span> <span id="${matchId}-pin" class="text-orange-400 font-mono font-bold hidden">PIN: ${mPin}</span></div>
                         </div>`;
                 }
-                blankRoundHtml += '</div>';
-                area.innerHTML += blankRoundHtml;
+                fullBracketHtml += '</div>';
                 roundNum++;
                 currentRoundSize /= 2;
             }
 
+            area.innerHTML = fullBracketHtml;
+
             for (let id in activeMatches) {
                 if(activeMatches[id].winner && id.startsWith("B-1-")) {
-                    advanceBracketTree(id, activeMatches[id].winner, `${activeRules.gamesToWin}-0`);
+                    advanceBracketTree(id, activeMatches[id].winner, `${activeRules.gamesToWin} 0`);
                 }
             }
         }
 
-        // 5. GENERATE LEAGUE ENGINE
         function buildLeagueSystem(players) {
             if (players.length % 2 !== 0) { players.push("BYE"); }
             const n = players.length;
@@ -485,7 +478,6 @@
             resetScoreInputs();
         }
 
-        // 6. TENNIS LOGIC ENGINE VALIDATION RULES
         function processScoreSubmission() {
             const id = document.getElementById('input-match-id').value;
             const enteredPin = document.getElementById('input-pin').value.trim().toUpperCase();
@@ -506,19 +498,15 @@
             const p2_s2 = parseInt(document.getElementById('p2-s2').value) || 0;
             const p2_s3 = parseInt(document.getElementById('p2-s3').value) || 0;
 
-            // Compute Winners per set block based on global match guidelines chosen
             let p1SetsWon = 0;
             let p2SetsWon = 0;
 
-            // Set 1 Checker
             if (p1_s1 > p2_s1) p1SetsWon++; else if (p2_s1 > p1_s1) p2SetsWon++;
-            else { showFeedback("Sets cannot be tied. Enter tiebreak game score results.", "text-yellow-400"); return; }
+            else { showFeedback("Sets cannot be tied. Enter set score results.", "text-yellow-400"); return; }
 
-            // Set 2 Checker
             if (p1_s2 > p2_s2) p1SetsWon++; else if (p2_s2 > p1_s2) p2SetsWon++;
-            else { showFeedback("Sets cannot be tied. Enter tiebreak game score results.", "text-yellow-400"); return; }
+            else { showFeedback("Sets cannot be tied. Enter set score results.", "text-yellow-400"); return; }
 
-            // Split Sets Verification Handler Block
             if (p1SetsWon === 1 && p2SetsWon === 1) {
                 if (p1_s3 === 0 && p2_s3 === 0) {
                     showFeedback(`Match Split 1-1! You must enter scores for the deciding ${activeRules.thirdSetType === 'match-tb' ? 'Match Tiebreak' : 'Third Set'}.`, "text-yellow-400");
@@ -527,7 +515,6 @@
                 if (p1_s3 > p2_s3) p1SetsWon++; else if (p2_s3 > p1_s3) p2SetsWon++;
                 else { showFeedback("Deciding sets must have a distinct winner.", "text-yellow-400"); return; }
             } else {
-                // If a player won 2-0, check to make sure they didn't accidentally type scores into Set 3
                 if (p1_s3 > 0 || p2_s3 > 0) {
                     showFeedback("Invalid score: Straight-set victories cannot have a third set score recorded.", "text-yellow-400");
                     return;
@@ -538,13 +525,15 @@
             let loser = (p1SetsWon > p2SetsWon) ? m.p2 : m.p1;
             m.winner = winner;
 
-            // String formatter builder 
-            let p1String = `${p1_s1}-${p1_s2}${p1_s3 > 0 || p2_s3 > 0 ? ` [${p1_s3}]` : ''}`;
-            let p2String = `${p2_s1}-${p2_s2}${p1_s3 > 0 || p2_s3 > 0 ? ` [${p2_s3}]` : ''}`;
+            let p1String = `${p1_s1}  ${p1_s2}${p1_s3 > 0 || p2_s3 > 0 ? `  [${p1_s3}]` : ''}`;
+            let p2String = `${p2_s1}  ${p2_s2}${p1_s3 > 0 || p2_s3 > 0 ? `  [${p2_s3}]` : ''}`;
 
             document.getElementById(`${id}-p1-sc`).innerText = p1String;
             document.getElementById(`${id}-p2-sc`).innerText = p2String;
-            document.getElementById(`card-${id}`).className = "bg-gray-900 border border-emerald-500/30 rounded-lg p-3 space-y-1 opacity-60 cursor-default";
+            
+            const cardEl = document.getElementById(`card-${id}`);
+            cardEl.className = "bg-gray-900 border border-emerald-500/30 rounded-lg p-3 space-y-1 opacity-60 cursor-default";
+            cardEl.removeAttribute("onclick");
 
             showFeedback("Score successfully calculated, verified, and committed.", "text-emerald-400");
 
@@ -578,19 +567,30 @@
 
             if(nextMatch) {
                 const card = document.getElementById(`card-${nextRoundId}`);
-                card.classList.remove('opacity-50');
-                card.classList.add('hover:border-orange-500/50', 'cursor-pointer');
                 
                 if(mIdx % 2 === 0) {
                     nextMatch.p1 = winnerName;
-                    document.getElementById(`${nextRoundId}-p1-name`).innerText = winnerName;
-                    document.getElementById(`${nextRoundId}-p1-name`).className = "font-medium text-white";
+                    const p1El = document.getElementById(`${nextRoundId}-p1-name`);
+                    if (p1El) { p1El.innerText = winnerName; p1El.className = "font-medium text-white"; }
                 } else {
                     nextMatch.p2 = winnerName;
-                    document.getElementById(`${nextRoundId}-p2-name`).innerText = winnerName;
-                    document.getElementById(`${nextRoundId}-p2-name`).className = "font-medium text-white";
+                    const p2El = document.getElementById(`${nextRoundId}-p2-name`);
+                    if (p2El) { p2El.innerText = winnerName; p2El.className = "font-medium text-white"; }
                 }
-                card.setAttribute("onclick", `loadMatchToSidebar('${nextRoundId}')`);
+
+                if (nextMatch.p1 !== "TBD" && nextMatch.p2 !== "TBD" && nextMatch.p1 !== "BYE" && nextMatch.p2 !== "BYE") {
+                    card.classList.remove('opacity-50');
+                    card.classList.add('hover:border-orange-500/50', 'cursor-pointer');
+                    const pinEl = document.getElementById(`${nextRoundId}-pin`);
+                    if (pinEl) pinEl.classList.remove('hidden');
+                    card.setAttribute("onclick", `loadMatchToSidebar('${nextRoundId}')`);
+                } else if (nextMatch.p1 !== "TBD" && nextMatch.p2 === "BYE") {
+                    nextMatch.winner = nextMatch.p1;
+                    advanceBracketTree(nextRoundId, nextMatch.p1, `${activeRules.gamesToWin} 0`);
+                } else if (nextMatch.p2 !== "TBD" && nextMatch.p1 === "BYE") {
+                    nextMatch.winner = nextMatch.p2;
+                    advanceBracketTree(nextRoundId, nextMatch.p2, `${activeRules.gamesToWin} 0`);
+                }
             }
         }
 
