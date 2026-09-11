@@ -24,22 +24,26 @@
         justify-content: center;
         text-align: center;
         
-        /* Layout spacing for a grand desktop presentation */
+        /* Layout spacing for desktop presentation */
         padding: 120px 40px;
         min-height: 65vh; 
         width: 100%;
         
-        /* Constrains the width on PC so it forms a beautiful centered block */
+        /* Constrains width on PC */
         max-width: 1100px; 
         margin: 40px auto;
         
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
         position: relative;
         
-        /* Updated image path to point into the images/ subfolder */
+        /* Dark fallback color ensures text legibility while image loads */
+        background-color: #1c1c1e;
+        
+        /* Relative image path with gradient overlay */
         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./images/IMG_5243.jpeg');
         background-size: cover;
         background-position: center;
+        background-repeat: no-repeat;
         
         border-radius: 28px;
         box-sizing: border-box;
@@ -59,7 +63,7 @@
         line-height: 1;
     }
 
-    /* Perfectly Equalized Vertical Gaps Top & Bottom */
+    /* Vertical Gaps Top & Bottom */
     .construction-status {
         display: inline-flex;
         align-items: center;
@@ -69,10 +73,7 @@
         padding: 8px 18px;
         border-radius: 100px;
         border: 1px solid rgba(255, 255, 255, 0.15);
-        
-        /* EXACT 20px gap above AND below for mathematical symmetry */
         margin: 20px auto 20px auto;
-        
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         box-sizing: border-box;
@@ -101,7 +102,7 @@
         to { transform: rotate(360deg); }
     }
 
-    /* Typography - Clean with Zero Text Effects */
+    /* Typography */
     .hero-title {
         font-size: 3.8rem;
         font-weight: 700;
@@ -112,7 +113,7 @@
         width: 100%;
     }
 
-    /* Premium Metallic Text Gradient */
+    /* Metallic Text Gradient */
     .hero-title .accent-text {
         background: linear-gradient(135deg, #0071e3 0%, #00b4d8 100%);
         -webkit-background-clip: text;
@@ -138,7 +139,7 @@
         width: 100%;
     }
 
-    /* Premium Pill-Shaped Button Elements */
+    /* Pill-Shaped Button Elements */
     .hero-btn {
         display: inline-flex;
         align-items: center;
@@ -152,7 +153,7 @@
         letter-spacing: -0.01em;
     }
 
-    /* High-Intent Primary Button */
+    /* Primary Button */
     .primary-btn {
         background-color: #ffffff;
         color: #1d1d1f !important;
@@ -166,7 +167,7 @@
         box-shadow: 0 8px 20px rgba(0, 113, 227, 0.3);
     }
 
-    /* Clean, Minimalist Secondary Button */
+    /* Secondary Button */
     .secondary-btn {
         background-color: rgba(255, 255, 255, 0.15);
         color: #ffffff !important;
@@ -180,7 +181,7 @@
         transform: translateY(-2px);
     }
 
-    /* Mobile Responsive Symmetry Fix */
+    /* Mobile Responsive Layout */
     @media (max-width: 768px) {
         body {
             padding: 0 12px;
@@ -193,8 +194,6 @@
         .hero-name {
             font-size: 0.85rem;
         }
-        
-        /* EXACT 16px top & bottom margin on mobile devices */
         .construction-status {
             margin: 16px auto 16px auto;
             padding: 6px 14px;
@@ -235,7 +234,7 @@
 
         <!-- Main Title -->
         <h1 class="hero-title">Welcome to my <span class="accent-text">Tennis Portfolio</span></h1>
-        <p class="hero-subtitle">Serving up articles, video breakdowns analysis, and fresh perspectives from across the court.</p>
+        <p class="hero-subtitle">Serving up articles, video breakdowns, analysis, and fresh perspectives from across the court.</p>
         
         <!-- Action Buttons -->
         <div class="hero-buttons">
