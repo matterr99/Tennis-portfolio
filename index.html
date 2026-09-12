@@ -39,8 +39,8 @@
         /* Dark fallback color ensures text legibility while image loads */
         background-color: #1c1c1e;
         
-        /* Relative image path with gradient overlay */
-        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('miamiopen.png');
+        /* Relative image path WITH DARK GRADIENT REMOVED */
+        background-image: url('miamiopen.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -61,6 +61,8 @@
         padding: 0;
         font-weight: 600;
         line-height: 1;
+        /* Added text shadow so white text remains readable against bright backgrounds */
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
     /* Vertical Gaps Top & Bottom */
@@ -111,6 +113,8 @@
         margin: 0 0 20px 0;
         line-height: 1.15;
         width: 100%;
+        /* Added text shadow so white text remains readable against bright backgrounds */
+        text-shadow: 0 4px 12px rgba(0,0,0,0.6);
     }
 
     /* Metallic Text Gradient */
@@ -118,6 +122,8 @@
         background: linear-gradient(135deg, #0071e3 0%, #00b4d8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        /* Remove text shadow specifically from the blue gradient so it renders cleanly */
+        text-shadow: none;
     }
 
     .hero-subtitle {
@@ -128,6 +134,8 @@
         font-weight: 400;
         line-height: 1.5;
         letter-spacing: -0.01em;
+        /* Added text shadow so white text remains readable against bright backgrounds */
+        text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
     /* Flexbox Button Layout */
@@ -169,15 +177,15 @@
 
     /* Secondary Button */
     .secondary-btn {
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: rgba(0, 0, 0, 0.4);
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
     }
 
     .secondary-btn:hover {
-        background-color: rgba(255, 255, 255, 0.25);
+        background-color: rgba(0, 0, 0, 0.6);
         transform: translateY(-2px);
     }
 
